@@ -20,7 +20,6 @@ import org.threeten.bp.LocalDate
     ]
 )
 @EnableJpaRepositories(basePackages = ["com.generals.zimmerfrei.server.database"])
-@ComponentScan(basePackages = ["org.springframework.data.jpa.convert.threetenbp"])
 @SpringBootApplication(
     scanBasePackages = [
         "com.generals.zimmerfrei.server.database",

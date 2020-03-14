@@ -1,6 +1,6 @@
 package com.generals.zimmerfrei.server.outbound
 
-import java.time.LocalDate
+import org.threeten.bp.LocalDate
 
 data class RoomOutbound(
     val id: Int,
