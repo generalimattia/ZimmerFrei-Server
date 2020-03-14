@@ -3,6 +3,8 @@ package com.generals.zimmerfrei.server.controller
 import com.generals.zimmerfrei.server.outbound.ReservationOutbound
 import com.generals.zimmerfrei.server.service.ReservationService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.hateoas.CollectionModel
+import org.springframework.hateoas.Link
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
@@ -31,8 +33,21 @@ class ReservationController {
 
     @GetMapping("/{id}")
     fun get(@PathVariable id: Int): ReservationOutbound =
-        service.get(id).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
+        service.get(id).map { reservation: ReservationOutbound ->
+            val reservationLink: Link = linkTo<ReservationController>().slash(id).withSelfRel()
+            reservation.apply {
+                add(reservationLink)
+            }
+        }.orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
 
     @GetMapping
-    fun getAll(): List<ReservationOutbound> = service.getAll()
+    fun getAll(): CollectionModel<ReservationOutbound> {
+        val allReservations: List<ReservationOutbound> = service.getAll().map { reservation: ReservationOutbound ->
+            val reservationLink: Link = linkTo<ReservationController>().slash(reservation.id).withSelfRel()
+            reservation.apply {
+                add(reservationLink)
+            }
+        }
+        return CollectionModel(allReservations, linkTo<ReservationController>().withSelfRel())
+    }
 }

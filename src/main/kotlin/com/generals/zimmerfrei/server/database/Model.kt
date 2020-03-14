@@ -9,7 +9,8 @@ import javax.persistence.*
 data class RoomEntity(
     @Id @GeneratedValue(strategy = GenerationType.AUTO) val id: Int = 0,
     val name: String,
-    val roomCount: Int
+    val roomCount: Int,
+    @ManyToMany(mappedBy = "rooms") val reservations: List<ReservationEntity> = emptyList()
 )
 
 @Entity
@@ -18,5 +19,12 @@ data class ReservationEntity(
     @Id @GeneratedValue(strategy = GenerationType.AUTO) val id: Int = 0,
     val name: String,
     @Convert(converter = ThreeTenBackPortJpaConverters.LocalDateConverter::class) val startDate: LocalDate,
-    @Convert(converter = ThreeTenBackPortJpaConverters.LocalDateConverter::class) val endDate: LocalDate
+    @Convert(converter = ThreeTenBackPortJpaConverters.LocalDateConverter::class) val endDate: LocalDate,
+    @ManyToMany
+    @JoinTable(
+        name = "reservation_room",
+        joinColumns = [JoinColumn(name = "reservation_id")],
+        inverseJoinColumns = [JoinColumn(name = "room_id")]
+    )
+    val rooms: List<RoomEntity> = emptyList()
 )
