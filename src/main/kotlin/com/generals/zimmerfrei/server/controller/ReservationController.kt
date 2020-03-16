@@ -17,37 +17,49 @@ class ReservationController {
     private lateinit var service: ReservationService
 
     @PostMapping
-    fun save(reservation: ReservationOutbound) {
+    fun save(@RequestBody reservation: ReservationOutbound) {
         service.save(reservation)
     }
 
     @PutMapping("/{id}")
-    fun update(@PathVariable id: Int, reservation: ReservationOutbound) {
-        service.save(reservation)
+    fun update(@PathVariable id: Int, @RequestBody updated: ReservationOutbound) {
+        service.update(id, updated).fold(
+            ifSuccess = {},
+            orElse = { throw ResponseStatusException(HttpStatus.NOT_FOUND) }
+        )
     }
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: Int, reservation: ReservationOutbound) {
-        service.delete(reservation)
+    fun delete(@PathVariable id: Int) {
+        service.delete(id).fold(
+            ifSuccess = {},
+            orElse = { throw ResponseStatusException(HttpStatus.NOT_FOUND) }
+        )
     }
 
     @GetMapping("/{id}")
     fun get(@PathVariable id: Int): ReservationOutbound =
-        service.get(id).map { reservation: ReservationOutbound ->
-            val reservationLink: Link = linkTo<ReservationController>().slash(id).withSelfRel()
-            reservation.apply {
-                add(reservationLink)
-            }
-        }.orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
+        service.get(id).fold(
+            ifSuccess = { reservation: ReservationOutbound ->
+                val reservationLink: Link = linkTo<ReservationController>().slash(id).withSelfRel()
+                reservation.apply {
+                    add(reservationLink)
+                }
+            },
+            orElse = { throw ResponseStatusException(HttpStatus.NOT_FOUND) }
+        )
 
     @GetMapping
     fun getAll(): CollectionModel<ReservationOutbound> {
-        val allReservations: List<ReservationOutbound> = service.getAll().map { reservation: ReservationOutbound ->
-            val reservationLink: Link = linkTo<ReservationController>().slash(reservation.id).withSelfRel()
-            reservation.apply {
-                add(reservationLink)
-            }
-        }
+        val allReservations: List<ReservationOutbound> = service.getAll().fold(
+            ifSuccess = { reservations: List<ReservationOutbound> ->
+                reservations.map { reservation: ReservationOutbound ->
+                    val reservationLink: Link = linkTo<ReservationController>().slash(reservation.id).withSelfRel()
+                    reservation.apply {
+                        add(reservationLink)
+                    }
+                }
+            }, orElse = { emptyList() })
         return CollectionModel(allReservations, linkTo<ReservationController>().withSelfRel())
     }
 }

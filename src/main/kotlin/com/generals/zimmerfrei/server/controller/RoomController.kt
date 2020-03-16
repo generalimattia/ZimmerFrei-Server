@@ -19,37 +19,51 @@ class RoomController {
     private lateinit var service: RoomService
 
     @PostMapping
-    fun save(room: RoomOutbound) {
+    fun save(@RequestBody room: RoomOutbound) {
         service.save(room)
     }
 
     @PutMapping("/{id}")
-    fun update(@PathVariable id: Int, room: RoomOutbound) {
-        service.save(room)
+    fun update(@PathVariable id: Int, @RequestBody updated: RoomOutbound) {
+        service.update(id, updated).fold(
+            ifSuccess = {},
+            orElse = { throw ResponseStatusException(HttpStatus.NOT_FOUND) }
+        )
     }
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: Int, room: RoomOutbound) {
-        service.delete(room)
+    fun delete(@PathVariable id: Int) {
+        service.delete(id).fold(
+            ifSuccess = {},
+            orElse = { throw ResponseStatusException(HttpStatus.NOT_FOUND) }
+        )
     }
 
     @GetMapping("/{id}")
     fun get(@PathVariable id: Int): RoomOutbound =
-        service.get(id).map { room: RoomOutbound ->
-            val roomLink: Link = linkTo<RoomController>().slash(id).withSelfRel()
-            room.apply {
-                add(roomLink)
-            }
-        }.orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
+        service.get(id).fold(
+            ifSuccess = { room: RoomOutbound ->
+                val roomLink: Link = linkTo<RoomController>().slash(id).withSelfRel()
+                room.apply {
+                    add(roomLink)
+                }
+            },
+            orElse = { throw ResponseStatusException(HttpStatus.NOT_FOUND) }
+        )
 
     @GetMapping
     fun getAll(): CollectionModel<RoomOutbound> {
-        val allRooms: List<RoomOutbound> = service.getAll().map { room: RoomOutbound ->
-            val roomLink: Link = linkTo<RoomController>().slash(room.id).withSelfRel()
-            room.apply {
-                add(roomLink)
-            }
-        }
+        val allRooms: List<RoomOutbound> = service.getAll().fold(
+            ifSuccess = { rooms: List<RoomOutbound> ->
+                rooms.map { room: RoomOutbound ->
+                    val roomLink: Link = linkTo<RoomController>().slash(room.id).withSelfRel()
+                    room.apply {
+                        add(roomLink)
+                    }
+                }
+            },
+            orElse = { emptyList() }
+        )
         return CollectionModel(allRooms, linkTo<RoomController>().withSelfRel())
     }
 }
