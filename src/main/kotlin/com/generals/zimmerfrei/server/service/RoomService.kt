@@ -43,6 +43,3 @@ class RoomServiceImpl constructor(
 
     override fun getAll(): Result<List<RoomOutbound>> = Result.Success(repository.findAll().map(RoomEntity::toOutbound))
 }
-
-private fun RoomOutbound.toEntity(): RoomEntity = RoomEntity(id = id, name = name, roomCount = roomCount)
-private fun RoomEntity.toOutbound(): RoomOutbound = RoomOutbound(id = id, name = name, roomCount = roomCount)

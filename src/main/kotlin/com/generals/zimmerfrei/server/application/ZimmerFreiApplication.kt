@@ -48,25 +48,30 @@ open class ZimmerFreiApplication {
             roomRepository.save(RoomEntity(name = "A", roomCount = 3))
             roomRepository.save(RoomEntity(name = "C", roomCount = 4))
 
+            val rooms: List<RoomEntity> = roomRepository.findAll().toList()
+
             reservationRepository.save(
                 ReservationEntity(
                     name = "Test1",
                     startDate = LocalDate.now(),
-                    endDate = LocalDate.now().plusDays(10)
+                    endDate = LocalDate.now().plusDays(10),
+                    rooms = listOf(rooms.first())
                 )
             )
             reservationRepository.save(
                 ReservationEntity(
                     name = "Test2",
                     startDate = LocalDate.now(),
-                    endDate = LocalDate.now().plusDays(10)
+                    endDate = LocalDate.now().plusDays(10),
+                    rooms = listOf(rooms.first(), rooms[1])
                 )
             )
             reservationRepository.save(
                 ReservationEntity(
                     name = "Test3",
-                    startDate = LocalDate.now(),
-                    endDate = LocalDate.now().plusDays(10)
+                    startDate = LocalDate.now().plusDays(5),
+                    endDate = LocalDate.now().plusDays(10),
+                    rooms = listOf(rooms[1], rooms.last())
                 )
             )
         }
