@@ -1,5 +1,6 @@
 package com.generals.zimmerfrei.server.application
 
+import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule
 import com.generals.zimmerfrei.server.database.ReservationEntity
 import com.generals.zimmerfrei.server.database.ReservationRepository
 import com.generals.zimmerfrei.server.database.RoomEntity
@@ -24,7 +25,8 @@ import org.threeten.bp.LocalDate
     scanBasePackages = [
         "com.generals.zimmerfrei.server.database",
         "com.generals.zimmerfrei.server.controller",
-        "com.generals.zimmerfrei.server.service"
+        "com.generals.zimmerfrei.server.service",
+        "com.generals.zimmerfrei.server.application"
     ]
 )
 open class ZimmerFreiApplication {
