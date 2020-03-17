@@ -15,6 +15,20 @@ open class RoomOutbound(
 open class ReservationOutbound(
     val id: Int,
     val name: String,
+    val numberOfParticipants: Int,
     val startDate: LocalDate,
-    val endDate: LocalDate
+    val endDate: LocalDate,
+    val customer: CustomerOutbound
+) : RepresentationModel<ReservationOutbound>()
+
+@Relation(value = "customer", collectionRelation = "customers")
+open class CustomerOutbound(
+    val id: Int,
+    val firstName: String,
+    val lastName: String,
+    val socialId: String,
+    val mobile: String,
+    val email: String,
+    val address: String,
+    val birthDate: LocalDate
 ) : RepresentationModel<ReservationOutbound>()

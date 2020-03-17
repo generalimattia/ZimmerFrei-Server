@@ -18,3 +18,6 @@ interface ReservationRepository : CrudRepository<ReservationEntity, Int> {
     ): List<ReservationEntity>
 
 }
+
+interface CustomerRepository : CrudRepository<CustomerEntity, Int> {
+}

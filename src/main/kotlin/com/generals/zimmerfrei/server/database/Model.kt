@@ -18,6 +18,7 @@ data class RoomEntity(
 data class ReservationEntity(
     @Id @GeneratedValue(strategy = GenerationType.AUTO) val id: Int = 0,
     val name: String,
+    val numberOfParticipants: Int,
     @Convert(converter = ThreeTenBackPortJpaConverters.LocalDateConverter::class) val startDate: LocalDate,
     @Convert(converter = ThreeTenBackPortJpaConverters.LocalDateConverter::class) val endDate: LocalDate,
     @ManyToMany
@@ -26,5 +27,21 @@ data class ReservationEntity(
         joinColumns = [JoinColumn(name = "reservation_id")],
         inverseJoinColumns = [JoinColumn(name = "room_id")]
     )
-    val rooms: List<RoomEntity> = emptyList()
+    val rooms: List<RoomEntity> = emptyList(),
+    @OneToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    val customer: CustomerEntity
+)
+
+@Entity
+@Table(name = "customer")
+data class CustomerEntity(
+    @Id @GeneratedValue(strategy = GenerationType.AUTO) val id: Int = 0,
+    val firstName: String,
+    val lastName: String,
+    @Column(unique = true) val socialId: String,
+    val mobile: String,
+    val email: String,
+    val address: String,
+    @Convert(converter = ThreeTenBackPortJpaConverters.LocalDateConverter::class) val birthDate: LocalDate
 )

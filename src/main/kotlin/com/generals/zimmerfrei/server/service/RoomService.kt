@@ -3,6 +3,8 @@ package com.generals.zimmerfrei.server.service
 import com.generals.zimmerfrei.server.database.RoomEntity
 import com.generals.zimmerfrei.server.database.RoomRepository
 import com.generals.zimmerfrei.server.outbound.RoomOutbound
+import com.generals.zimmerfrei.server.outbound.toEntity
+import com.generals.zimmerfrei.server.outbound.toOutbound
 import org.springframework.stereotype.Service
 
 interface RoomService {

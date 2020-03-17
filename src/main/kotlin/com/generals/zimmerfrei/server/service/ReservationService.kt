@@ -5,7 +5,8 @@ import com.generals.zimmerfrei.server.database.ReservationRepository
 import com.generals.zimmerfrei.server.database.RoomEntity
 import com.generals.zimmerfrei.server.database.RoomRepository
 import com.generals.zimmerfrei.server.outbound.ReservationOutbound
-import com.generals.zimmerfrei.server.outbound.RoomOutbound
+import com.generals.zimmerfrei.server.outbound.toEntity
+import com.generals.zimmerfrei.server.outbound.toOutbound
 import org.springframework.stereotype.Service
 import org.threeten.bp.LocalDate
 
@@ -67,34 +68,6 @@ class ReservationServiceImpl constructor(
             )
         }.orElse(Result.NotFound)
 }
-
-fun RoomOutbound.toEntity(): RoomEntity = RoomEntity(
-    id = id,
-    name = name,
-    roomCount = roomCount
-)
-
-fun RoomEntity.toOutbound(): RoomOutbound = RoomOutbound(
-    id = id,
-    name = name,
-    roomCount = roomCount
-)
-
-fun ReservationOutbound.toEntity(): ReservationEntity =
-    ReservationEntity(
-        id = id,
-        name = name,
-        startDate = startDate,
-        endDate = endDate
-    )
-
-fun ReservationEntity.toOutbound(): ReservationOutbound =
-    ReservationOutbound(
-        id = id,
-        name = name,
-        startDate = startDate,
-        endDate = endDate
-    )
 
 sealed class Result<out T> {
     data class Success<out T>(val value: T) : Result<T>()

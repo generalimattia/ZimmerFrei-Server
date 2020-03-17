@@ -83,6 +83,8 @@ fun Date.toLocalDate(): LocalDate = Instant.ofEpochMilli(time).atZone(ZoneId.sys
 fun List<ReservationOutbound>.fillWithLink(): List<ReservationOutbound> =
     map { reservation: ReservationOutbound ->
         val reservationLink: Link = linkTo<ReservationController>().slash(reservation.id).withSelfRel()
+        val customerLink: Link = linkTo<CustomerController>().slash(reservation.customer.id).withSelfRel()
+        reservation.customer.add(customerLink)
         reservation.apply {
             add(reservationLink)
         }

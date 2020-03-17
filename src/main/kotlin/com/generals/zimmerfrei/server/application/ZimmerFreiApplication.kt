@@ -1,16 +1,11 @@
 package com.generals.zimmerfrei.server.application
 
-import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule
-import com.generals.zimmerfrei.server.database.ReservationEntity
-import com.generals.zimmerfrei.server.database.ReservationRepository
-import com.generals.zimmerfrei.server.database.RoomEntity
-import com.generals.zimmerfrei.server.database.RoomRepository
+import com.generals.zimmerfrei.server.database.*
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.ComponentScan
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.threeten.bp.LocalDate
 
@@ -41,21 +36,59 @@ open class ZimmerFreiApplication {
     @Bean
     fun demo(
         roomRepository: RoomRepository,
-        reservationRepository: ReservationRepository
+        reservationRepository: ReservationRepository,
+        customerRepository: CustomerRepository
     ): CommandLineRunner =
         CommandLineRunner {
             roomRepository.save(RoomEntity(name = "B", roomCount = 2))
             roomRepository.save(RoomEntity(name = "A", roomCount = 3))
             roomRepository.save(RoomEntity(name = "C", roomCount = 4))
 
+            customerRepository.save(
+                CustomerEntity(
+                    firstName = "Jhon",
+                    lastName = "Black",
+                    socialId = "12345566",
+                    mobile = "234543366",
+                    email = "jhon@black.com",
+                    address = "Black Street, 1",
+                    birthDate = LocalDate.now().minusYears(50)
+                )
+            )
+            customerRepository.save(
+                CustomerEntity(
+                    firstName = "Mark",
+                    lastName = "Blue",
+                    socialId = "12345434556456",
+                    mobile = "234543366",
+                    email = "mark@blue.com",
+                    address = "Blue Street, 1",
+                    birthDate = LocalDate.now().minusYears(30)
+                )
+            )
+            customerRepository.save(
+                CustomerEntity(
+                    firstName = "Fitz",
+                    lastName = "Yellow",
+                    socialId = "36842790",
+                    mobile = "234543366",
+                    email = "fitz@yellow.com",
+                    address = "Yellow Street, 1",
+                    birthDate = LocalDate.now().minusYears(70)
+                )
+            )
+
             val rooms: List<RoomEntity> = roomRepository.findAll().toList()
+            val customers: List<CustomerEntity> = customerRepository.findAll().toList()
 
             reservationRepository.save(
                 ReservationEntity(
                     name = "Test1",
                     startDate = LocalDate.now(),
                     endDate = LocalDate.now().plusDays(10),
-                    rooms = listOf(rooms.first())
+                    rooms = listOf(rooms.first()),
+                    numberOfParticipants = 3,
+                    customer = customers.first()
                 )
             )
             reservationRepository.save(
@@ -63,7 +96,9 @@ open class ZimmerFreiApplication {
                     name = "Test2",
                     startDate = LocalDate.now(),
                     endDate = LocalDate.now().plusDays(10),
-                    rooms = listOf(rooms.first(), rooms[1])
+                    rooms = listOf(rooms.first(), rooms[1]),
+                    numberOfParticipants = 4,
+                    customer = customers[1]
                 )
             )
             reservationRepository.save(
@@ -71,7 +106,9 @@ open class ZimmerFreiApplication {
                     name = "Test3",
                     startDate = LocalDate.now().plusDays(5),
                     endDate = LocalDate.now().plusDays(10),
-                    rooms = listOf(rooms[1], rooms.last())
+                    rooms = listOf(rooms[1], rooms.last()),
+                    numberOfParticipants = 7,
+                    customer = customers.last()
                 )
             )
         }
