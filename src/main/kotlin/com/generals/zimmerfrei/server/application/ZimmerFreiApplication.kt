@@ -44,42 +44,7 @@ open class ZimmerFreiApplication {
             roomRepository.save(RoomEntity(name = "A", roomCount = 3))
             roomRepository.save(RoomEntity(name = "C", roomCount = 4))
 
-            customerRepository.save(
-                CustomerEntity(
-                    firstName = "Jhon",
-                    lastName = "Black",
-                    socialId = "12345566",
-                    mobile = "234543366",
-                    email = "jhon@black.com",
-                    address = "Black Street, 1",
-                    birthDate = LocalDate.now().minusYears(50)
-                )
-            )
-            customerRepository.save(
-                CustomerEntity(
-                    firstName = "Mark",
-                    lastName = "Blue",
-                    socialId = "12345434556456",
-                    mobile = "234543366",
-                    email = "mark@blue.com",
-                    address = "Blue Street, 1",
-                    birthDate = LocalDate.now().minusYears(30)
-                )
-            )
-            customerRepository.save(
-                CustomerEntity(
-                    firstName = "Fitz",
-                    lastName = "Yellow",
-                    socialId = "36842790",
-                    mobile = "234543366",
-                    email = "fitz@yellow.com",
-                    address = "Yellow Street, 1",
-                    birthDate = LocalDate.now().minusYears(70)
-                )
-            )
-
             val rooms: List<RoomEntity> = roomRepository.findAll().toList()
-            val customers: List<CustomerEntity> = customerRepository.findAll().toList()
 
             reservationRepository.save(
                 ReservationEntity(
@@ -88,7 +53,15 @@ open class ZimmerFreiApplication {
                     endDate = LocalDate.now().plusDays(10),
                     rooms = listOf(rooms.first()),
                     numberOfParticipants = 3,
-                    customer = customers.first()
+                    customer = CustomerEntity(
+                        firstName = "Jhon",
+                        lastName = "Black",
+                        socialId = "12345566",
+                        mobile = "234543366",
+                        email = "jhon@black.com",
+                        address = "Black Street, 1",
+                        birthDate = LocalDate.now().minusYears(50)
+                    )
                 )
             )
             reservationRepository.save(
@@ -98,7 +71,15 @@ open class ZimmerFreiApplication {
                     endDate = LocalDate.now().plusDays(10),
                     rooms = listOf(rooms.first(), rooms[1]),
                     numberOfParticipants = 4,
-                    customer = customers[1]
+                    customer = CustomerEntity(
+                        firstName = "Mark",
+                        lastName = "Blue",
+                        socialId = "12345434556456",
+                        mobile = "234543366",
+                        email = "mark@blue.com",
+                        address = "Blue Street, 1",
+                        birthDate = LocalDate.now().minusYears(30)
+                    )
                 )
             )
             reservationRepository.save(
@@ -108,7 +89,15 @@ open class ZimmerFreiApplication {
                     endDate = LocalDate.now().plusDays(10),
                     rooms = listOf(rooms[1], rooms.last()),
                     numberOfParticipants = 7,
-                    customer = customers.last()
+                    customer = CustomerEntity(
+                        firstName = "Fitz",
+                        lastName = "Yellow",
+                        socialId = "36842790",
+                        mobile = "234543366",
+                        email = "fitz@yellow.com",
+                        address = "Yellow Street, 1",
+                        birthDate = LocalDate.now().minusYears(70)
+                    )
                 )
             )
         }

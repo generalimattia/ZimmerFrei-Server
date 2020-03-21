@@ -47,12 +47,7 @@ class ReservationController {
     @GetMapping("/{id}")
     fun get(@PathVariable id: Int): ReservationOutbound =
         service.get(id).fold(
-            ifSuccess = { reservation: ReservationOutbound ->
-                val reservationLink: Link = linkTo<ReservationController>().slash(id).withSelfRel()
-                reservation.apply {
-                    add(reservationLink)
-                }
-            },
+            ifSuccess = ReservationOutbound::fillWithLink,
             ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
             ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
         )
@@ -65,7 +60,8 @@ class ReservationController {
     ): CollectionModel<ReservationOutbound> =
         service.getByRoomAndFromDateToDate(roomId, from.toLocalDate(), to.toLocalDate()).fold(
             ifSuccess = { reservations: List<ReservationOutbound> ->
-                val reservationsWithLink: List<ReservationOutbound> = reservations.fillWithLink()
+                val reservationsWithLink: List<ReservationOutbound> =
+                    reservations.map(ReservationOutbound::fillWithLink)
                 CollectionModel(reservationsWithLink, linkTo<ReservationController>().withSelfRel())
             },
             ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
@@ -76,22 +72,19 @@ class ReservationController {
     @GetMapping
     fun getAll(): CollectionModel<ReservationOutbound> {
         val allReservations: List<ReservationOutbound> = service.getAll().fold(
-            ifSuccess = List<ReservationOutbound>::fillWithLink,
-            ifNotFound = { emptyList() },
-            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
-        )
+            ifSuccess = { it.map(ReservationOutbound::fillWithLink) },
+            ifNotFound = { emptyList() }
+        ) { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
         return CollectionModel(allReservations, linkTo<ReservationController>().withSelfRel())
     }
 }
 
 fun Date.toLocalDate(): LocalDate = Instant.ofEpochMilli(time).atZone(ZoneId.systemDefault()).toLocalDate()
 
-fun List<ReservationOutbound>.fillWithLink(): List<ReservationOutbound> =
-    map { reservation: ReservationOutbound ->
-        val reservationLink: Link = linkTo<ReservationController>().slash(reservation.id).withSelfRel()
-        val customerLink: Link = linkTo<CustomerController>().slash(reservation.customer.id).withSelfRel()
-        reservation.customer.add(customerLink)
-        reservation.apply {
-            add(reservationLink)
-        }
-    }
+fun ReservationOutbound.fillWithLink(): ReservationOutbound {
+    val reservationLink: Link = linkTo<ReservationController>().slash(id).withSelfRel()
+    val customerLink: Link = linkTo<CustomerController>().slash(customer.id).withSelfRel()
+    customer.add(customerLink)
+    add(reservationLink)
+    return this
+}
