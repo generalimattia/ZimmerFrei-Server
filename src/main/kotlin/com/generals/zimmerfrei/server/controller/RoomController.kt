@@ -27,7 +27,8 @@ class RoomController {
     fun update(@PathVariable id: Int, @RequestBody updated: RoomOutbound) {
         service.update(id, updated).fold(
             ifSuccess = {},
-            orElse = { throw ResponseStatusException(HttpStatus.NOT_FOUND) }
+            ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
         )
     }
 
@@ -35,7 +36,8 @@ class RoomController {
     fun delete(@PathVariable id: Int) {
         service.delete(id).fold(
             ifSuccess = {},
-            orElse = { throw ResponseStatusException(HttpStatus.NOT_FOUND) }
+            ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
         )
     }
 
@@ -48,7 +50,8 @@ class RoomController {
                     add(roomLink)
                 }
             },
-            orElse = { throw ResponseStatusException(HttpStatus.NOT_FOUND) }
+            ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
         )
 
     @GetMapping
@@ -62,7 +65,8 @@ class RoomController {
                     }
                 }
             },
-            orElse = { emptyList() }
+            ifNotFound = { emptyList() },
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
         )
         return CollectionModel(allRooms, linkTo<RoomController>().withSelfRel())
     }

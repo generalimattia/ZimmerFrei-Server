@@ -30,7 +30,8 @@ class ReservationController {
     fun update(@PathVariable id: Int, @RequestBody updated: ReservationOutbound) {
         service.update(id, updated).fold(
             ifSuccess = {},
-            orElse = { throw ResponseStatusException(HttpStatus.NOT_FOUND) }
+            ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
         )
     }
 
@@ -38,7 +39,8 @@ class ReservationController {
     fun delete(@PathVariable id: Int) {
         service.delete(id).fold(
             ifSuccess = {},
-            orElse = { throw ResponseStatusException(HttpStatus.NOT_FOUND) }
+            ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
         )
     }
 
@@ -51,7 +53,8 @@ class ReservationController {
                     add(reservationLink)
                 }
             },
-            orElse = { throw ResponseStatusException(HttpStatus.NOT_FOUND) }
+            ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
         )
 
     @GetMapping(params = ["roomId", "from", "to"])
@@ -65,7 +68,8 @@ class ReservationController {
                 val reservationsWithLink: List<ReservationOutbound> = reservations.fillWithLink()
                 CollectionModel(reservationsWithLink, linkTo<ReservationController>().withSelfRel())
             },
-            orElse = { throw ResponseStatusException(HttpStatus.NOT_FOUND) }
+            ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
         )
 
 
@@ -73,7 +77,9 @@ class ReservationController {
     fun getAll(): CollectionModel<ReservationOutbound> {
         val allReservations: List<ReservationOutbound> = service.getAll().fold(
             ifSuccess = List<ReservationOutbound>::fillWithLink,
-            orElse = { emptyList() })
+            ifNotFound = { emptyList() },
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
+        )
         return CollectionModel(allReservations, linkTo<ReservationController>().withSelfRel())
     }
 }

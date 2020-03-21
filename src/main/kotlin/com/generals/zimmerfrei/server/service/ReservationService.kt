@@ -72,10 +72,12 @@ class ReservationServiceImpl constructor(
 sealed class Result<out T> {
     data class Success<out T>(val value: T) : Result<T>()
     object NotFound : Result<Nothing>()
+    object Forbidden : Result<Nothing>()
 
-    fun <R> fold(ifSuccess: (T) -> R, orElse: () -> R): R =
+    fun <R> fold(ifSuccess: (T) -> R, ifNotFound: () -> R, ifForbidden: () -> R): R =
         when (this) {
             is Success -> ifSuccess(value)
-            NotFound -> orElse()
+            NotFound -> ifNotFound()
+            Forbidden -> ifForbidden()
         }
 }

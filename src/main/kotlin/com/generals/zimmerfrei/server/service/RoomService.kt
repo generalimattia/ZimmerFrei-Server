@@ -1,5 +1,7 @@
 package com.generals.zimmerfrei.server.service
 
+import com.generals.zimmerfrei.server.database.ReservationEntity
+import com.generals.zimmerfrei.server.database.ReservationRepository
 import com.generals.zimmerfrei.server.database.RoomEntity
 import com.generals.zimmerfrei.server.database.RoomRepository
 import com.generals.zimmerfrei.server.outbound.RoomOutbound
@@ -17,31 +19,38 @@ interface RoomService {
 
 @Service
 class RoomServiceImpl constructor(
-    private val repository: RoomRepository
+    private val roomRepository: RoomRepository,
+    private val reservationRepository: ReservationRepository
 ) : RoomService {
 
     override fun get(id: Int): Result<RoomOutbound> =
-        repository.findById(id).map<Result<RoomOutbound>> { Result.Success(it.toOutbound()) }
+        roomRepository.findById(id).map<Result<RoomOutbound>> { Result.Success(it.toOutbound()) }
             .orElse(Result.NotFound)
 
     override fun save(room: RoomOutbound) {
-        repository.save(room.toEntity())
+        roomRepository.save(room.toEntity())
     }
 
     override fun update(id: Int, updated: RoomOutbound): Result<RoomOutbound> =
-        repository.findById(id).map<Result<RoomOutbound>> { room: RoomEntity ->
+        roomRepository.findById(id).map<Result<RoomOutbound>> { room: RoomEntity ->
             room.copy(
                 name = updated.name,
                 roomCount = updated.roomCount
-            ).also { repository.save(it) }
+            ).also { roomRepository.save(it) }
                 .let { Result.Success(it.toOutbound()) }
         }.orElse(Result.NotFound)
 
     override fun delete(id: Int): Result<RoomOutbound> =
-        repository.findById(id).map<Result<RoomOutbound>> {
-            repository.delete(it)
-            Result.Success(it.toOutbound())
+        roomRepository.findById(id).map<Result<RoomOutbound>> { room: RoomEntity ->
+            val reservationsByRoom: List<ReservationEntity> = reservationRepository.findByRoom(room)
+            if (reservationsByRoom.isEmpty()) {
+                roomRepository.delete(room)
+                Result.Success(room.toOutbound())
+            } else {
+                Result.Forbidden
+            }
         }.orElse(Result.NotFound)
 
-    override fun getAll(): Result<List<RoomOutbound>> = Result.Success(repository.findAll().map(RoomEntity::toOutbound))
+    override fun getAll(): Result<List<RoomOutbound>> =
+        Result.Success(roomRepository.findAll().map(RoomEntity::toOutbound))
 }

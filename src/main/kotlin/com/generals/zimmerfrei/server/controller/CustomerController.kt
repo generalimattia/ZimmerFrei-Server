@@ -25,7 +25,8 @@ class CustomerController {
     fun update(@PathVariable id: Int, @RequestBody updated: CustomerOutbound) {
         service.update(id, updated).fold(
             ifSuccess = {},
-            orElse = { throw ResponseStatusException(HttpStatus.NOT_FOUND) }
+            ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
         )
     }
 
@@ -33,7 +34,8 @@ class CustomerController {
     fun delete(@PathVariable id: Int) {
         service.delete(id).fold(
             ifSuccess = {},
-            orElse = { throw ResponseStatusException(HttpStatus.NOT_FOUND) }
+            ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
         )
     }
 
@@ -46,7 +48,8 @@ class CustomerController {
                     add(roomLink)
                 }
             },
-            orElse = { throw ResponseStatusException(HttpStatus.NOT_FOUND) }
+            ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
         )
 
     @GetMapping
@@ -60,7 +63,8 @@ class CustomerController {
                     }
                 }
             },
-            orElse = { emptyList() }
+            ifNotFound = { emptyList() },
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
         )
         return CollectionModel(allRooms, linkTo<CustomerController>().withSelfRel())
     }
