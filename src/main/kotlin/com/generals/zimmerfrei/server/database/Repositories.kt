@@ -13,7 +13,7 @@ interface ReservationRepository : CrudRepository<ReservationEntity, Int> {
     @Query("SELECT r from ReservationEntity r WHERE :room MEMBER OF r.rooms")
     fun findByRoom(@Param("room") room: RoomEntity): List<ReservationEntity>
 
-    @Query("SELECT r from ReservationEntity r WHERE :room MEMBER OF r.rooms AND r.startDate >= :startDate AND r.startDate <= :endDate")
+    @Query("SELECT r from ReservationEntity r WHERE :room MEMBER OF r.rooms AND ((r.startDate >= :startDate AND r.startDate <= :endDate) OR (r.endDate >= :startDate AND r.endDate <= :endDate))")
     fun findByRoomAndStartDateBetween(
         @Param("room") room: RoomEntity,
         @Param("startDate") startDate: LocalDate,
