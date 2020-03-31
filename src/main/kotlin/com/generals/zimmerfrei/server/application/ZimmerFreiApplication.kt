@@ -40,18 +40,18 @@ open class ZimmerFreiApplication {
         customerRepository: CustomerRepository
     ): CommandLineRunner =
         CommandLineRunner {
-            roomRepository.save(RoomEntity(name = "A", roomCount = 2))
-            roomRepository.save(RoomEntity(name = "B", roomCount = 3))
-            roomRepository.save(RoomEntity(name = "C", roomCount = 4))
-            roomRepository.save(RoomEntity(name = "D", roomCount = 4))
-            roomRepository.save(RoomEntity(name = "E", roomCount = 4))
-            roomRepository.save(RoomEntity(name = "F", roomCount = 4))
-            roomRepository.save(RoomEntity(name = "G", roomCount = 4))
-            roomRepository.save(RoomEntity(name = "H", roomCount = 4))
-            roomRepository.save(RoomEntity(name = "I", roomCount = 4))
-            roomRepository.save(RoomEntity(name = "L", roomCount = 4))
-            roomRepository.save(RoomEntity(name = "M", roomCount = 4))
-            roomRepository.save(RoomEntity(name = "N", roomCount = 4))
+            roomRepository.save(RoomEntity(name = "A", maxPersons = 2))
+            roomRepository.save(RoomEntity(name = "B", maxPersons = 3))
+            roomRepository.save(RoomEntity(name = "C", maxPersons = 4))
+            roomRepository.save(RoomEntity(name = "D", maxPersons = 4))
+            roomRepository.save(RoomEntity(name = "E", maxPersons = 4))
+            roomRepository.save(RoomEntity(name = "F", maxPersons = 4))
+            roomRepository.save(RoomEntity(name = "G", maxPersons = 4))
+            roomRepository.save(RoomEntity(name = "H", maxPersons = 4))
+            roomRepository.save(RoomEntity(name = "I", maxPersons = 4))
+            roomRepository.save(RoomEntity(name = "L", maxPersons = 4))
+            roomRepository.save(RoomEntity(name = "M", maxPersons = 4))
+            roomRepository.save(RoomEntity(name = "N", maxPersons = 4))
 
             val rooms: List<RoomEntity> = roomRepository.findAll().toList()
 
@@ -61,7 +61,12 @@ open class ZimmerFreiApplication {
                     startDate = LocalDate.now(),
                     endDate = LocalDate.now().plusDays(10),
                     rooms = listOf(rooms.first()),
-                    numberOfParticipants = 3,
+                    color = "#d50000",
+                    notes = "Please clean everything",
+                    persons = 3,
+                    adults = 2,
+                    children = 1,
+                    babies = 0,
                     customer = CustomerEntity(
                         firstName = "Jhon",
                         lastName = "Black",
@@ -79,7 +84,12 @@ open class ZimmerFreiApplication {
                     startDate = LocalDate.now().minusDays(10),
                     endDate = LocalDate.now().plusDays(10),
                     rooms = listOf(rooms[1]),
-                    numberOfParticipants = 4,
+                    color = "#c51162",
+                    notes = "Please clean everything",
+                    persons = 3,
+                    adults = 2,
+                    children = 1,
+                    babies = 0,
                     customer = CustomerEntity(
                         firstName = "Mark",
                         lastName = "Blue",
@@ -97,7 +107,12 @@ open class ZimmerFreiApplication {
                     startDate = LocalDate.now().minusDays(5),
                     endDate = LocalDate.now().plusDays(10),
                     rooms = listOf(rooms[2]),
-                    numberOfParticipants = 7,
+                    color = "#8e24aa",
+                    notes = "Please clean everything",
+                    persons = 3,
+                    adults = 2,
+                    children = 1,
+                    babies = 0,
                     customer = CustomerEntity(
                         firstName = "Fitz",
                         lastName = "Yellow",
@@ -115,7 +130,12 @@ open class ZimmerFreiApplication {
                     startDate = LocalDate.now(),
                     endDate = LocalDate.now().plusDays(10),
                     rooms = listOf(rooms[3]),
-                    numberOfParticipants = 3,
+                    color = "#6200ea",
+                    notes = "Please clean everything",
+                    persons = 3,
+                    adults = 2,
+                    children = 1,
+                    babies = 0,
                     customer = CustomerEntity(
                         firstName = "Jhon",
                         lastName = "Black",
@@ -133,7 +153,12 @@ open class ZimmerFreiApplication {
                     startDate = LocalDate.now().minusDays(10),
                     endDate = LocalDate.now().plusDays(10),
                     rooms = listOf(rooms[4]),
-                    numberOfParticipants = 4,
+                    color = "#283593",
+                    notes = "Please clean everything",
+                    persons = 3,
+                    adults = 2,
+                    children = 1,
+                    babies = 0,
                     customer = CustomerEntity(
                         firstName = "Mark",
                         lastName = "Blue",
@@ -151,7 +176,12 @@ open class ZimmerFreiApplication {
                     startDate = LocalDate.now().minusDays(5),
                     endDate = LocalDate.now().plusDays(10),
                     rooms = listOf(rooms[5]),
-                    numberOfParticipants = 7,
+                    color = "#2962ff",
+                    notes = "Please clean everything",
+                    persons = 3,
+                    adults = 2,
+                    children = 1,
+                    babies = 0,
                     customer = CustomerEntity(
                         firstName = "Fitz",
                         lastName = "Yellow",
@@ -169,7 +199,12 @@ open class ZimmerFreiApplication {
                     startDate = LocalDate.now().minusDays(5),
                     endDate = LocalDate.now().plusDays(10),
                     rooms = listOf(rooms[6]),
-                    numberOfParticipants = 7,
+                    color = "#0091ea",
+                    notes = "Please clean everything",
+                    persons = 3,
+                    adults = 2,
+                    children = 1,
+                    babies = 0,
                     customer = CustomerEntity(
                         firstName = "Fitz",
                         lastName = "Yellow",
@@ -187,7 +222,12 @@ open class ZimmerFreiApplication {
                     startDate = LocalDate.now(),
                     endDate = LocalDate.now().plusDays(10),
                     rooms = listOf(rooms[7]),
-                    numberOfParticipants = 3,
+                    color = "#00b8d4",
+                    notes = "Please clean everything",
+                    persons = 3,
+                    adults = 2,
+                    children = 1,
+                    babies = 0,
                     customer = CustomerEntity(
                         firstName = "Jhon",
                         lastName = "Black",
@@ -205,7 +245,12 @@ open class ZimmerFreiApplication {
                     startDate = LocalDate.now().minusDays(10),
                     endDate = LocalDate.now().plusDays(10),
                     rooms = listOf(rooms[8]),
-                    numberOfParticipants = 4,
+                    color = "#00695c",
+                    notes = "Please clean everything",
+                    persons = 3,
+                    adults = 2,
+                    children = 1,
+                    babies = 0,
                     customer = CustomerEntity(
                         firstName = "Mark",
                         lastName = "Blue",
@@ -223,7 +268,12 @@ open class ZimmerFreiApplication {
                     startDate = LocalDate.now().minusDays(5),
                     endDate = LocalDate.now().plusDays(10),
                     rooms = listOf(rooms[9]),
-                    numberOfParticipants = 7,
+                    color = "#4caf50",
+                    notes = "Please clean everything",
+                    persons = 3,
+                    adults = 2,
+                    children = 1,
+                    babies = 0,
                     customer = CustomerEntity(
                         firstName = "Fitz",
                         lastName = "Yellow",
@@ -241,7 +291,12 @@ open class ZimmerFreiApplication {
                     startDate = LocalDate.now().minusDays(10),
                     endDate = LocalDate.now().plusDays(10),
                     rooms = listOf(rooms[10]),
-                    numberOfParticipants = 4,
+                    color = "#8bc34a",
+                    notes = "Please clean everything",
+                    persons = 3,
+                    adults = 2,
+                    children = 1,
+                    babies = 0,
                     customer = CustomerEntity(
                         firstName = "Mark",
                         lastName = "Blue",
@@ -259,7 +314,12 @@ open class ZimmerFreiApplication {
                     startDate = LocalDate.now().minusDays(5),
                     endDate = LocalDate.now().plusDays(10),
                     rooms = listOf(rooms.last()),
-                    numberOfParticipants = 7,
+                    color = "#fbc02d",
+                    notes = "Please clean everything",
+                    persons = 3,
+                    adults = 2,
+                    children = 1,
+                    babies = 0,
                     customer = CustomerEntity(
                         firstName = "Fitz",
                         lastName = "Yellow",

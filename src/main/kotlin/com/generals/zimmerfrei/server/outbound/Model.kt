@@ -8,17 +8,22 @@ import org.threeten.bp.LocalDate
 open class RoomOutbound(
     val id: Int,
     val name: String,
-    val roomCount: Int
+    val maxPersons: Int
 ) : RepresentationModel<RoomOutbound>()
 
 @Relation(value = "reservation", collectionRelation = "reservations")
 open class ReservationOutbound(
     val id: Int,
     val name: String,
-    val numberOfParticipants: Int,
+    val persons: Int,
     val startDate: LocalDate,
     val endDate: LocalDate,
-    val customer: CustomerOutbound
+    val customer: CustomerOutbound,
+    val notes: String,
+    val color: String,
+    val adults: Int,
+    val children: Int,
+    val babies: Int
 ) : RepresentationModel<ReservationOutbound>()
 
 @Relation(value = "customer", collectionRelation = "customers")

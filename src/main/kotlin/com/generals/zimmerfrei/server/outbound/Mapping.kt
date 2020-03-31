@@ -8,13 +8,13 @@ import com.generals.zimmerfrei.server.database.RoomEntity
 fun RoomOutbound.toEntity(): RoomEntity = RoomEntity(
     id = id,
     name = name,
-    roomCount = roomCount
+    maxPersons = maxPersons
 )
 
 fun RoomEntity.toOutbound(): RoomOutbound = RoomOutbound(
     id = id,
     name = name,
-    roomCount = roomCount
+    maxPersons = maxPersons
 )
 
 fun ReservationOutbound.toEntity(): ReservationEntity =
@@ -23,8 +23,13 @@ fun ReservationOutbound.toEntity(): ReservationEntity =
         name = name,
         startDate = startDate,
         endDate = endDate,
-        numberOfParticipants = numberOfParticipants,
-        customer = customer.toEntity()
+        persons = persons,
+        customer = customer.toEntity(),
+        notes = notes,
+        color = color,
+        adults = adults,
+        children = children,
+        babies = babies
     )
 
 fun ReservationEntity.toOutbound(): ReservationOutbound =
@@ -33,8 +38,13 @@ fun ReservationEntity.toOutbound(): ReservationOutbound =
         name = name,
         startDate = startDate,
         endDate = endDate,
-        numberOfParticipants = numberOfParticipants,
-        customer = customer.toOutbound()
+        persons = persons,
+        customer = customer.toOutbound(),
+        notes = notes,
+        color = color,
+        adults = adults,
+        children = children,
+        babies = babies
     )
 
 fun CustomerEntity.toOutbound(): CustomerOutbound =

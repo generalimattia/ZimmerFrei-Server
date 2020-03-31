@@ -9,7 +9,7 @@ import javax.persistence.*
 data class RoomEntity(
     @Id @GeneratedValue(strategy = GenerationType.AUTO) val id: Int = 0,
     val name: String,
-    val roomCount: Int,
+    val maxPersons: Int,
     @ManyToMany(mappedBy = "rooms") val reservations: List<ReservationEntity> = emptyList()
 )
 
@@ -18,7 +18,7 @@ data class RoomEntity(
 data class ReservationEntity(
     @Id @GeneratedValue(strategy = GenerationType.AUTO) val id: Int = 0,
     val name: String,
-    val numberOfParticipants: Int,
+    val persons: Int,
     @Convert(converter = ThreeTenBackPortJpaConverters.LocalDateConverter::class) val startDate: LocalDate,
     @Convert(converter = ThreeTenBackPortJpaConverters.LocalDateConverter::class) val endDate: LocalDate,
     @ManyToMany
@@ -30,7 +30,13 @@ data class ReservationEntity(
     val rooms: List<RoomEntity> = emptyList(),
     @OneToOne(cascade = [CascadeType.PERSIST])
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    val customer: CustomerEntity
+    val customer: CustomerEntity,
+    @Lob
+    val notes: String = "",
+    val color: String = "",
+    val adults: Int,
+    val children: Int,
+    val babies: Int
 )
 
 @Entity

@@ -39,7 +39,13 @@ class ReservationServiceImpl constructor(
             reservation.copy(
                 name = updated.name,
                 startDate = updated.startDate,
-                endDate = updated.endDate
+                endDate = updated.endDate,
+                persons = updated.persons,
+                adults = updated.adults,
+                children = updated.children,
+                babies = updated.babies,
+                notes = updated.notes,
+                color = updated.color
             ).also { reservationRepository.save(it) }
                 .let { Result.Success(it.toOutbound()) }
         }.orElse(Result.NotFound)

@@ -35,7 +35,7 @@ class RoomServiceImpl constructor(
         roomRepository.findById(id).map<Result<RoomOutbound>> { room: RoomEntity ->
             room.copy(
                 name = updated.name,
-                roomCount = updated.roomCount
+                maxPersons = updated.maxPersons
             ).also { roomRepository.save(it) }
                 .let { Result.Success(it.toOutbound()) }
         }.orElse(Result.NotFound)
