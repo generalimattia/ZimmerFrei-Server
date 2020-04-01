@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.hateoas.CollectionModel
 import org.springframework.hateoas.Link
+import org.springframework.hateoas.server.core.DummyInvocationUtils.methodOn
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
@@ -62,12 +64,16 @@ class ReservationController {
             ifSuccess = { reservations: List<ReservationOutbound> ->
                 val reservationsWithLink: List<ReservationOutbound> =
                     reservations.map(ReservationOutbound::fillWithLink)
-                CollectionModel(reservationsWithLink, linkTo<ReservationController>().withSelfRel())
+                CollectionModel(
+                    reservationsWithLink, linkTo(
+                        methodOn(ReservationController::class.java)
+                            .getByRoomAndFromDateToDate(roomId, from, to)
+                    ).withSelfRel()
+                )
             },
             ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
             ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
         )
-
 
     @GetMapping
     fun getAll(): CollectionModel<ReservationOutbound> {
