@@ -56,7 +56,13 @@ fun CustomerEntity.toOutbound(): CustomerOutbound =
         mobile = mobile,
         email = email,
         address = address,
-        birthDate = birthDate
+        city = city,
+        province = province,
+        state = state,
+        zip = zip,
+        gender = gender,
+        birthDate = birthDate,
+        birthPlace = birthPlace
     )
 
 fun CustomerOutbound.toEntity(): CustomerEntity =
@@ -68,5 +74,11 @@ fun CustomerOutbound.toEntity(): CustomerEntity =
         mobile = mobile,
         email = email,
         address = address,
-        birthDate = birthDate
+        city = city,
+        province = province,
+        state = state,
+        zip = zip,
+        gender = gender,
+        birthDate = birthDate,
+        birthPlace = birthPlace
     )

@@ -74,7 +74,13 @@ open class ZimmerFreiApplication {
                         mobile = "234543366",
                         email = "jhon@black.com",
                         address = "Black Street, 1",
-                        birthDate = LocalDate.now().minusYears(50)
+                        birthDate = LocalDate.now().minusYears(50),
+                        city = "London",
+                        province = "London",
+                        state = "GB",
+                        zip = "23131",
+                        gender = "M",
+                        birthPlace = "Birmingham"
                     )
                 )
             )
@@ -97,7 +103,13 @@ open class ZimmerFreiApplication {
                         mobile = "234543366",
                         email = "mark@blue.com",
                         address = "Blue Street, 1",
-                        birthDate = LocalDate.now().minusYears(30)
+                        birthDate = LocalDate.now().minusYears(30),
+                        city = "London",
+                        province = "London",
+                        state = "GB",
+                        zip = "23131",
+                        gender = "M",
+                        birthPlace = "Birmingham"
                     )
                 )
             )
@@ -120,7 +132,13 @@ open class ZimmerFreiApplication {
                         mobile = "234543366",
                         email = "fitz@yellow.com",
                         address = "Yellow Street, 1",
-                        birthDate = LocalDate.now().minusYears(70)
+                        birthDate = LocalDate.now().minusYears(70),
+                        city = "London",
+                        province = "London",
+                        state = "GB",
+                        zip = "23131",
+                        gender = "M",
+                        birthPlace = "Birmingham"
                     )
                 )
             )
@@ -143,7 +161,13 @@ open class ZimmerFreiApplication {
                         mobile = "234543366",
                         email = "jhon@black.com",
                         address = "Black Street, 1",
-                        birthDate = LocalDate.now().minusYears(50)
+                        birthDate = LocalDate.now().minusYears(50),
+                        city = "London",
+                        province = "London",
+                        state = "GB",
+                        zip = "23131",
+                        gender = "M",
+                        birthPlace = "Birmingham"
                     )
                 )
             )
@@ -166,7 +190,13 @@ open class ZimmerFreiApplication {
                         mobile = "234543366",
                         email = "mark@blue.com",
                         address = "Blue Street, 1",
-                        birthDate = LocalDate.now().minusYears(30)
+                        birthDate = LocalDate.now().minusYears(30),
+                        city = "London",
+                        province = "London",
+                        state = "GB",
+                        zip = "23131",
+                        gender = "M",
+                        birthPlace = "Birmingham"
                     )
                 )
             )
@@ -189,7 +219,13 @@ open class ZimmerFreiApplication {
                         mobile = "234543366",
                         email = "fitz@yellow.com",
                         address = "Yellow Street, 1",
-                        birthDate = LocalDate.now().minusYears(70)
+                        birthDate = LocalDate.now().minusYears(70),
+                        city = "London",
+                        province = "London",
+                        state = "GB",
+                        zip = "23131",
+                        gender = "M",
+                        birthPlace = "Birmingham"
                     )
                 )
             )
@@ -212,7 +248,13 @@ open class ZimmerFreiApplication {
                         mobile = "234543366",
                         email = "fitz@yellow.com",
                         address = "Yellow Street, 1",
-                        birthDate = LocalDate.now().minusYears(70)
+                        birthDate = LocalDate.now().minusYears(70),
+                        city = "London",
+                        province = "London",
+                        state = "GB",
+                        zip = "23131",
+                        gender = "M",
+                        birthPlace = "Birmingham"
                     )
                 )
             )
@@ -235,7 +277,13 @@ open class ZimmerFreiApplication {
                         mobile = "234543366",
                         email = "jhon@black.com",
                         address = "Black Street, 1",
-                        birthDate = LocalDate.now().minusYears(50)
+                        birthDate = LocalDate.now().minusYears(50),
+                        city = "London",
+                        province = "London",
+                        state = "GB",
+                        zip = "23131",
+                        gender = "M",
+                        birthPlace = "Birmingham"
                     )
                 )
             )
@@ -258,7 +306,13 @@ open class ZimmerFreiApplication {
                         mobile = "234543366",
                         email = "mark@blue.com",
                         address = "Blue Street, 1",
-                        birthDate = LocalDate.now().minusYears(30)
+                        birthDate = LocalDate.now().minusYears(30),
+                        city = "London",
+                        province = "London",
+                        state = "GB",
+                        zip = "23131",
+                        gender = "M",
+                        birthPlace = "Birmingham"
                     )
                 )
             )
@@ -281,7 +335,13 @@ open class ZimmerFreiApplication {
                         mobile = "234543366",
                         email = "fitz@yellow.com",
                         address = "Yellow Street, 1",
-                        birthDate = LocalDate.now().minusYears(70)
+                        birthDate = LocalDate.now().minusYears(70),
+                        city = "London",
+                        province = "London",
+                        state = "GB",
+                        zip = "23131",
+                        gender = "M",
+                        birthPlace = "Birmingham"
                     )
                 )
             )
@@ -304,7 +364,13 @@ open class ZimmerFreiApplication {
                         mobile = "234543366",
                         email = "mark@blue.com",
                         address = "Blue Street, 1",
-                        birthDate = LocalDate.now().minusYears(30)
+                        birthDate = LocalDate.now().minusYears(30),
+                        city = "London",
+                        province = "London",
+                        state = "GB",
+                        zip = "23131",
+                        gender = "M",
+                        birthPlace = "Birmingham"
                     )
                 )
             )
@@ -327,7 +393,13 @@ open class ZimmerFreiApplication {
                         mobile = "234543366",
                         email = "fitz@yellow.com",
                         address = "Yellow Street, 1",
-                        birthDate = LocalDate.now().minusYears(70)
+                        birthDate = LocalDate.now().minusYears(70),
+                        city = "London",
+                        province = "London",
+                        state = "GB",
+                        zip = "23131",
+                        gender = "M",
+                        birthPlace = "Birmingham"
                     )
                 )
             )

@@ -35,5 +35,11 @@ open class CustomerOutbound(
     val mobile: String,
     val email: String,
     val address: String,
-    val birthDate: LocalDate
+    val city: String,
+    val province: String,
+    val state: String,
+    val zip: String,
+    val gender: String,
+    val birthDate: LocalDate,
+    val birthPlace: String
 ) : RepresentationModel<ReservationOutbound>()

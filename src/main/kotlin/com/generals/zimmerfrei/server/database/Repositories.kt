@@ -23,4 +23,5 @@ interface ReservationRepository : CrudRepository<ReservationEntity, Int> {
 }
 
 interface CustomerRepository : CrudRepository<CustomerEntity, Int> {
+    fun findAllByOrderByFirstNameAsc(): List<CustomerEntity>
 }

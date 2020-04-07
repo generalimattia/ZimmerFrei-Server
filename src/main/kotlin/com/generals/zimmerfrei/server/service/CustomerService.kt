@@ -36,8 +36,14 @@ class CustomerServiceImpl constructor(
                 socialId = updated.socialId,
                 mobile = updated.mobile,
                 email = updated.email,
+                address = updated.address,
+                city = updated.city,
+                province = updated.province,
+                state = updated.state,
+                zip = updated.zip,
+                gender = updated.gender,
                 birthDate = updated.birthDate,
-                address = updated.address
+                birthPlace = updated.birthPlace
             ).also { repository.save(it) }
                 .let { Result.Success(it.toOutbound()) }
         }.orElse(Result.NotFound)
@@ -49,5 +55,5 @@ class CustomerServiceImpl constructor(
         }.orElse(Result.NotFound)
 
     override fun getAll(): Result<List<CustomerOutbound>> =
-        Result.Success(repository.findAll().map(CustomerEntity::toOutbound))
+        Result.Success(repository.findAllByOrderByFirstNameAsc().map(CustomerEntity::toOutbound))
 }
