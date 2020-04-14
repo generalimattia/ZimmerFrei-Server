@@ -28,7 +28,7 @@ data class ReservationEntity(
         inverseJoinColumns = [JoinColumn(name = "room_id")]
     )
     val rooms: List<RoomEntity> = emptyList(),
-    @OneToOne(cascade = [CascadeType.PERSIST])
+    @OneToOne(cascade = [CascadeType.MERGE])
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     val customer: CustomerEntity,
     @Lob

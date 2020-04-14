@@ -55,6 +55,60 @@ open class ZimmerFreiApplication {
 
             val rooms: List<RoomEntity> = roomRepository.findAll().toList()
 
+            val customer1: CustomerEntity = customerRepository.save(
+                CustomerEntity(
+                    firstName = "Jhon",
+                    lastName = "Black",
+                    socialId = "12345566",
+                    mobile = "234543366",
+                    email = "jhon@black.com",
+                    address = "Black Street, 1",
+                    birthDate = LocalDate.now().minusYears(50),
+                    city = "London",
+                    province = "London",
+                    state = "GB",
+                    zip = "23131",
+                    gender = "M",
+                    birthPlace = "Birmingham"
+                )
+            )
+
+            val customer2: CustomerEntity = customerRepository.save(
+                CustomerEntity(
+                    firstName = "Mark",
+                    lastName = "Blue",
+                    socialId = "12345434556456",
+                    mobile = "234543366",
+                    email = "mark@blue.com",
+                    address = "Blue Street, 1",
+                    birthDate = LocalDate.now().minusYears(30),
+                    city = "London",
+                    province = "London",
+                    state = "GB",
+                    zip = "23131",
+                    gender = "M",
+                    birthPlace = "Birmingham"
+                )
+            )
+
+            val customer3: CustomerEntity = customerRepository.save(
+                CustomerEntity(
+                    firstName = "Fitz",
+                    lastName = "Yellow",
+                    socialId = "36842790",
+                    mobile = "234543366",
+                    email = "fitz@yellow.com",
+                    address = "Yellow Street, 1",
+                    birthDate = LocalDate.now().minusYears(70),
+                    city = "London",
+                    province = "London",
+                    state = "GB",
+                    zip = "23131",
+                    gender = "M",
+                    birthPlace = "Birmingham"
+                )
+            )
+
             reservationRepository.save(
                 ReservationEntity(
                     name = "Test1",
@@ -67,21 +121,7 @@ open class ZimmerFreiApplication {
                     adults = 2,
                     children = 1,
                     babies = 0,
-                    customer = CustomerEntity(
-                        firstName = "Jhon",
-                        lastName = "Black",
-                        socialId = "12345566",
-                        mobile = "234543366",
-                        email = "jhon@black.com",
-                        address = "Black Street, 1",
-                        birthDate = LocalDate.now().minusYears(50),
-                        city = "London",
-                        province = "London",
-                        state = "GB",
-                        zip = "23131",
-                        gender = "M",
-                        birthPlace = "Birmingham"
-                    )
+                    customer = customer1
                 )
             )
             reservationRepository.save(
@@ -96,21 +136,7 @@ open class ZimmerFreiApplication {
                     adults = 2,
                     children = 1,
                     babies = 0,
-                    customer = CustomerEntity(
-                        firstName = "Mark",
-                        lastName = "Blue",
-                        socialId = "12345434556456",
-                        mobile = "234543366",
-                        email = "mark@blue.com",
-                        address = "Blue Street, 1",
-                        birthDate = LocalDate.now().minusYears(30),
-                        city = "London",
-                        province = "London",
-                        state = "GB",
-                        zip = "23131",
-                        gender = "M",
-                        birthPlace = "Birmingham"
-                    )
+                    customer = customer2
                 )
             )
             reservationRepository.save(
@@ -125,21 +151,7 @@ open class ZimmerFreiApplication {
                     adults = 2,
                     children = 1,
                     babies = 0,
-                    customer = CustomerEntity(
-                        firstName = "Fitz",
-                        lastName = "Yellow",
-                        socialId = "36842790",
-                        mobile = "234543366",
-                        email = "fitz@yellow.com",
-                        address = "Yellow Street, 1",
-                        birthDate = LocalDate.now().minusYears(70),
-                        city = "London",
-                        province = "London",
-                        state = "GB",
-                        zip = "23131",
-                        gender = "M",
-                        birthPlace = "Birmingham"
-                    )
+                    customer = customer3
                 )
             )
             reservationRepository.save(
@@ -154,21 +166,7 @@ open class ZimmerFreiApplication {
                     adults = 2,
                     children = 1,
                     babies = 0,
-                    customer = CustomerEntity(
-                        firstName = "Jhon",
-                        lastName = "Black",
-                        socialId = "28176319",
-                        mobile = "234543366",
-                        email = "jhon@black.com",
-                        address = "Black Street, 1",
-                        birthDate = LocalDate.now().minusYears(50),
-                        city = "London",
-                        province = "London",
-                        state = "GB",
-                        zip = "23131",
-                        gender = "M",
-                        birthPlace = "Birmingham"
-                    )
+                    customer = customer1
                 )
             )
             reservationRepository.save(
@@ -183,21 +181,7 @@ open class ZimmerFreiApplication {
                     adults = 2,
                     children = 1,
                     babies = 0,
-                    customer = CustomerEntity(
-                        firstName = "Mark",
-                        lastName = "Blue",
-                        socialId = "4543238904",
-                        mobile = "234543366",
-                        email = "mark@blue.com",
-                        address = "Blue Street, 1",
-                        birthDate = LocalDate.now().minusYears(30),
-                        city = "London",
-                        province = "London",
-                        state = "GB",
-                        zip = "23131",
-                        gender = "M",
-                        birthPlace = "Birmingham"
-                    )
+                    customer = customer2
                 )
             )
             reservationRepository.save(
@@ -212,21 +196,7 @@ open class ZimmerFreiApplication {
                     adults = 2,
                     children = 1,
                     babies = 0,
-                    customer = CustomerEntity(
-                        firstName = "Fitz",
-                        lastName = "Yellow",
-                        socialId = "324876232",
-                        mobile = "234543366",
-                        email = "fitz@yellow.com",
-                        address = "Yellow Street, 1",
-                        birthDate = LocalDate.now().minusYears(70),
-                        city = "London",
-                        province = "London",
-                        state = "GB",
-                        zip = "23131",
-                        gender = "M",
-                        birthPlace = "Birmingham"
-                    )
+                    customer = customer3
                 )
             )
             reservationRepository.save(
@@ -241,21 +211,7 @@ open class ZimmerFreiApplication {
                     adults = 2,
                     children = 1,
                     babies = 0,
-                    customer = CustomerEntity(
-                        firstName = "Fitz",
-                        lastName = "Yellow",
-                        socialId = "2y492372389723",
-                        mobile = "234543366",
-                        email = "fitz@yellow.com",
-                        address = "Yellow Street, 1",
-                        birthDate = LocalDate.now().minusYears(70),
-                        city = "London",
-                        province = "London",
-                        state = "GB",
-                        zip = "23131",
-                        gender = "M",
-                        birthPlace = "Birmingham"
-                    )
+                    customer = customer3
                 )
             )
             reservationRepository.save(
@@ -270,21 +226,7 @@ open class ZimmerFreiApplication {
                     adults = 2,
                     children = 1,
                     babies = 0,
-                    customer = CustomerEntity(
-                        firstName = "Jhon",
-                        lastName = "Black",
-                        socialId = "9823493287423",
-                        mobile = "234543366",
-                        email = "jhon@black.com",
-                        address = "Black Street, 1",
-                        birthDate = LocalDate.now().minusYears(50),
-                        city = "London",
-                        province = "London",
-                        state = "GB",
-                        zip = "23131",
-                        gender = "M",
-                        birthPlace = "Birmingham"
-                    )
+                    customer = customer1
                 )
             )
             reservationRepository.save(
@@ -299,21 +241,7 @@ open class ZimmerFreiApplication {
                     adults = 2,
                     children = 1,
                     babies = 0,
-                    customer = CustomerEntity(
-                        firstName = "Mark",
-                        lastName = "Blue",
-                        socialId = "4023420948'",
-                        mobile = "234543366",
-                        email = "mark@blue.com",
-                        address = "Blue Street, 1",
-                        birthDate = LocalDate.now().minusYears(30),
-                        city = "London",
-                        province = "London",
-                        state = "GB",
-                        zip = "23131",
-                        gender = "M",
-                        birthPlace = "Birmingham"
-                    )
+                    customer = customer2
                 )
             )
             reservationRepository.save(
@@ -328,21 +256,7 @@ open class ZimmerFreiApplication {
                     adults = 2,
                     children = 1,
                     babies = 0,
-                    customer = CustomerEntity(
-                        firstName = "Fitz",
-                        lastName = "Yellow",
-                        socialId = "298472",
-                        mobile = "234543366",
-                        email = "fitz@yellow.com",
-                        address = "Yellow Street, 1",
-                        birthDate = LocalDate.now().minusYears(70),
-                        city = "London",
-                        province = "London",
-                        state = "GB",
-                        zip = "23131",
-                        gender = "M",
-                        birthPlace = "Birmingham"
-                    )
+                    customer = customer3
                 )
             )
             reservationRepository.save(
@@ -357,21 +271,7 @@ open class ZimmerFreiApplication {
                     adults = 2,
                     children = 1,
                     babies = 0,
-                    customer = CustomerEntity(
-                        firstName = "Mark",
-                        lastName = "Blue",
-                        socialId = "324434645667'",
-                        mobile = "234543366",
-                        email = "mark@blue.com",
-                        address = "Blue Street, 1",
-                        birthDate = LocalDate.now().minusYears(30),
-                        city = "London",
-                        province = "London",
-                        state = "GB",
-                        zip = "23131",
-                        gender = "M",
-                        birthPlace = "Birmingham"
-                    )
+                    customer = customer2
                 )
             )
             reservationRepository.save(
@@ -386,21 +286,7 @@ open class ZimmerFreiApplication {
                     adults = 2,
                     children = 1,
                     babies = 0,
-                    customer = CustomerEntity(
-                        firstName = "Fitz",
-                        lastName = "Yellow",
-                        socialId = "3209843204823",
-                        mobile = "234543366",
-                        email = "fitz@yellow.com",
-                        address = "Yellow Street, 1",
-                        birthDate = LocalDate.now().minusYears(70),
-                        city = "London",
-                        province = "London",
-                        state = "GB",
-                        zip = "23131",
-                        gender = "M",
-                        birthPlace = "Birmingham"
-                    )
+                    customer = customer3
                 )
             )
         }
