@@ -5,10 +5,12 @@ import com.generals.zimmerfrei.server.database.ReservationRepository
 import com.generals.zimmerfrei.server.database.RoomEntity
 import com.generals.zimmerfrei.server.database.RoomRepository
 import com.generals.zimmerfrei.server.outbound.ReservationOutbound
+import com.generals.zimmerfrei.server.outbound.RoomOutbound
 import com.generals.zimmerfrei.server.outbound.toEntity
 import com.generals.zimmerfrei.server.outbound.toOutbound
 import org.springframework.stereotype.Service
 import org.threeten.bp.LocalDate
+import java.util.*
 
 interface ReservationService {
     fun get(id: Int): Result<ReservationOutbound>
@@ -31,7 +33,21 @@ class ReservationServiceImpl constructor(
         )
 
     override fun save(reservation: ReservationOutbound) {
-        reservationRepository.save(reservation.toEntity())
+        val persistentRoom: RoomEntity? =
+            reservation.room?.let { room: RoomOutbound ->
+                val optional: Optional<RoomEntity> = roomRepository.findById(room.id)
+                optional.orElse(null)
+            }
+        val toPersist: ReservationEntity = reservation.toEntity()
+        val rooms: List<RoomEntity> = persistentRoom?.let {
+            listOf(it)
+        } ?: emptyList()
+
+        reservationRepository.save(
+            toPersist.copy(
+                rooms = toPersist.rooms + rooms
+            )
+        )
     }
 
     override fun update(id: Int, updated: ReservationOutbound): Result<ReservationOutbound> =

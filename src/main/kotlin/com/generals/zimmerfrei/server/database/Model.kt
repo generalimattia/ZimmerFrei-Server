@@ -30,7 +30,7 @@ data class ReservationEntity(
     val rooms: List<RoomEntity> = emptyList(),
     @OneToOne(cascade = [CascadeType.MERGE])
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    val customer: CustomerEntity,
+    val customer: CustomerEntity?,
     @Lob
     val notes: String = "",
     val color: String = "",

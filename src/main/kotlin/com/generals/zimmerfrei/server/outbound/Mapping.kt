@@ -24,12 +24,13 @@ fun ReservationOutbound.toEntity(): ReservationEntity =
         startDate = startDate,
         endDate = endDate,
         persons = persons,
-        customer = customer.toEntity(),
+        customer = customer?.toEntity(),
         notes = notes,
         color = color,
         adults = adults,
         children = children,
-        babies = babies
+        babies = babies,
+        rooms = room?.let { listOf(it.toEntity()) } ?: emptyList()
     )
 
 fun ReservationEntity.toOutbound(): ReservationOutbound =
@@ -39,12 +40,13 @@ fun ReservationEntity.toOutbound(): ReservationOutbound =
         startDate = startDate,
         endDate = endDate,
         persons = persons,
-        customer = customer.toOutbound(),
+        customer = customer?.toOutbound(),
         notes = notes,
         color = color,
         adults = adults,
         children = children,
-        babies = babies
+        babies = babies,
+        room = rooms.firstOrNull()?.toOutbound()
     )
 
 fun CustomerEntity.toOutbound(): CustomerOutbound =

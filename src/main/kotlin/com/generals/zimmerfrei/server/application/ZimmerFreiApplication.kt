@@ -124,6 +124,22 @@ open class ZimmerFreiApplication {
                     customer = customer1
                 )
             )
+
+            reservationRepository.save(
+                ReservationEntity(
+                    name = "Test15",
+                    startDate = LocalDate.now().plusDays(11),
+                    endDate = LocalDate.now().plusDays(15),
+                    rooms = listOf(rooms.first()),
+                    color = "#d50000",
+                    notes = "Please clean everything",
+                    persons = 3,
+                    adults = 2,
+                    children = 1,
+                    babies = 0,
+                    customer = customer1
+                )
+            )
             reservationRepository.save(
                 ReservationEntity(
                     name = "Test2",

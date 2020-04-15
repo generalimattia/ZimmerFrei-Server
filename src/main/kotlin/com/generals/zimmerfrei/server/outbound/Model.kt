@@ -18,12 +18,13 @@ open class ReservationOutbound(
     val persons: Int,
     val startDate: LocalDate,
     val endDate: LocalDate,
-    val customer: CustomerOutbound,
+    val customer: CustomerOutbound?,
     val notes: String,
     val color: String,
     val adults: Int,
     val children: Int,
-    val babies: Int
+    val babies: Int,
+    val room: RoomOutbound?
 ) : RepresentationModel<ReservationOutbound>()
 
 @Relation(value = "customer", collectionRelation = "customers")
