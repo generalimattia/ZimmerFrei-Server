@@ -47133,7 +47133,7 @@ var Main = /*#__PURE__*/function (_Component) {
       }, function (error) {
         alert(error);
       });
-      fetch("http://localhost:8080/reservations?roomId=1&from=2020-04-01&to=2020-04-30").then(function (res) {
+      fetch("http://localhost:8080/reservations?roomId=1&from=2020-05-01&to=2020-05-31").then(function (res) {
         return res.json();
       }).then(function (response) {
         _this2.setState({

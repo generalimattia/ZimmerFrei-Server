@@ -33,7 +33,8 @@ class ReservationController {
         service.update(id, updated).fold(
             ifSuccess = {},
             ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
-            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) },
+            ifConflict = { throw ResponseStatusException(HttpStatus.CONFLICT) }
         )
     }
 
@@ -42,7 +43,8 @@ class ReservationController {
         service.delete(id).fold(
             ifSuccess = {},
             ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
-            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) },
+            ifConflict = { throw ResponseStatusException(HttpStatus.CONFLICT) }
         )
     }
 
@@ -51,7 +53,8 @@ class ReservationController {
         service.get(id).fold(
             ifSuccess = ReservationOutbound::fillWithLink,
             ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
-            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) },
+            ifConflict = { throw ResponseStatusException(HttpStatus.CONFLICT) }
         )
 
     @GetMapping(params = ["roomId", "from", "to"])
@@ -72,15 +75,18 @@ class ReservationController {
                 )
             },
             ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
-            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) },
+            ifConflict = { throw ResponseStatusException(HttpStatus.CONFLICT) }
         )
 
     @GetMapping
     fun getAll(): CollectionModel<ReservationOutbound> {
         val allReservations: List<ReservationOutbound> = service.getAll().fold(
             ifSuccess = { it.map(ReservationOutbound::fillWithLink) },
-            ifNotFound = { emptyList() }
-        ) { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
+            ifNotFound = { emptyList() },
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) },
+            ifConflict = { throw ResponseStatusException(HttpStatus.CONFLICT) }
+        )
         return CollectionModel(allReservations, linkTo<ReservationController>().withSelfRel())
     }
 }

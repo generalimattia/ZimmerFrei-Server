@@ -89,7 +89,7 @@ class Main extends Component {
                 }
             )
 
-        fetch("http://localhost:8080/reservations?roomId=1&from=2020-04-01&to=2020-04-30")
+        fetch("http://localhost:8080/reservations?roomId=1&from=2020-05-01&to=2020-05-31")
             .then(res => res.json())
             .then(
                 (response) => {

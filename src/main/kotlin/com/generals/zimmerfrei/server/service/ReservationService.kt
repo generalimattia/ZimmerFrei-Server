@@ -14,7 +14,7 @@ import java.util.*
 
 interface ReservationService {
     fun get(id: Int): Result<ReservationOutbound>
-    fun save(reservation: ReservationOutbound)
+    fun save(reservation: ReservationOutbound): Result<Unit>
     fun update(id: Int, updated: ReservationOutbound): Result<ReservationOutbound>
     fun delete(id: Int): Result<ReservationOutbound>
     fun getAll(): Result<List<ReservationOutbound>>
@@ -32,22 +32,36 @@ class ReservationServiceImpl constructor(
             Result.NotFound
         )
 
-    override fun save(reservation: ReservationOutbound) {
+    override fun save(reservation: ReservationOutbound): Result<Unit> {
         val persistentRoom: RoomEntity? =
             reservation.room?.let { room: RoomOutbound ->
                 val optional: Optional<RoomEntity> = roomRepository.findById(room.id)
                 optional.orElse(null)
             }
-        val toPersist: ReservationEntity = reservation.toEntity()
-        val rooms: List<RoomEntity> = persistentRoom?.let {
-            listOf(it)
+
+        val overlappingReservations: List<ReservationEntity> = persistentRoom?.let { roomEntity: RoomEntity ->
+            reservationRepository.findByRoomAndStartDateBetween(
+                room = roomEntity,
+                startDate = reservation.startDate,
+                endDate = reservation.endDate
+            )
         } ?: emptyList()
 
-        reservationRepository.save(
-            toPersist.copy(
-                rooms = toPersist.rooms + rooms
+        return if (overlappingReservations.isEmpty()) {
+            val toPersist: ReservationEntity = reservation.toEntity()
+            val rooms: List<RoomEntity> = persistentRoom?.let {
+                listOf(it)
+            } ?: emptyList()
+
+            reservationRepository.save(
+                toPersist.copy(
+                    rooms = toPersist.rooms + rooms
+                )
             )
-        )
+            Result.Success(Unit)
+        } else {
+            Result.Conflict
+        }
     }
 
     override fun update(id: Int, updated: ReservationOutbound): Result<ReservationOutbound> =
@@ -95,11 +109,18 @@ sealed class Result<out T> {
     data class Success<out T>(val value: T) : Result<T>()
     object NotFound : Result<Nothing>()
     object Forbidden : Result<Nothing>()
+    object Conflict : Result<Nothing>()
 
-    fun <R> fold(ifSuccess: (T) -> R, ifNotFound: () -> R, ifForbidden: () -> R): R =
+    fun <R> fold(
+        ifSuccess: (T) -> R,
+        ifNotFound: () -> R,
+        ifForbidden: () -> R,
+        ifConflict: () -> R
+    ): R =
         when (this) {
             is Success -> ifSuccess(value)
             NotFound -> ifNotFound()
             Forbidden -> ifForbidden()
+            Conflict -> ifConflict()
         }
 }

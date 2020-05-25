@@ -28,7 +28,8 @@ class RoomController {
         service.update(id, updated).fold(
             ifSuccess = {},
             ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
-            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) },
+            ifConflict = { throw ResponseStatusException(HttpStatus.CONFLICT) }
         )
     }
 
@@ -37,7 +38,8 @@ class RoomController {
         service.delete(id).fold(
             ifSuccess = {},
             ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
-            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) },
+            ifConflict = { throw ResponseStatusException(HttpStatus.CONFLICT) }
         )
     }
 
@@ -51,7 +53,8 @@ class RoomController {
                 }
             },
             ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
-            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) },
+            ifConflict = { throw ResponseStatusException(HttpStatus.CONFLICT) }
         )
 
     @GetMapping
@@ -66,7 +69,8 @@ class RoomController {
                 }
             },
             ifNotFound = { emptyList() },
-            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) }
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) },
+            ifConflict = { throw ResponseStatusException(HttpStatus.CONFLICT) }
         )
         return CollectionModel(allRooms, linkTo<RoomController>().withSelfRel())
     }
