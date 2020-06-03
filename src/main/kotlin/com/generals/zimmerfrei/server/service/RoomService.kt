@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 
 interface RoomService {
     fun get(id: Int): Result<RoomOutbound>
-    fun save(room: RoomOutbound)
+    fun save(room: RoomOutbound): Result<RoomOutbound>
     fun update(id: Int, updated: RoomOutbound): Result<RoomOutbound>
     fun delete(id: Int): Result<RoomOutbound>
     fun getAll(): Result<List<RoomOutbound>>
@@ -27,8 +27,9 @@ class RoomServiceImpl constructor(
         roomRepository.findById(id).map<Result<RoomOutbound>> { Result.Success(it.toOutbound()) }
             .orElse(Result.NotFound)
 
-    override fun save(room: RoomOutbound) {
-        roomRepository.save(room.toEntity())
+    override fun save(room: RoomOutbound): Result<RoomOutbound> {
+        val entity: RoomEntity = roomRepository.save(room.toEntity())
+        return Result.Success(entity.toOutbound())
     }
 
     override fun update(id: Int, updated: RoomOutbound): Result<RoomOutbound> =

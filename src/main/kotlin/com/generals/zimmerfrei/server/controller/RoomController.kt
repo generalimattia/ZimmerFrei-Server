@@ -19,19 +19,22 @@ class RoomController {
     private lateinit var service: RoomService
 
     @PostMapping
-    fun save(@RequestBody room: RoomOutbound) {
-        service.save(room)
-    }
-
-    @PutMapping("/{id}")
-    fun update(@PathVariable id: Int, @RequestBody updated: RoomOutbound) {
-        service.update(id, updated).fold(
-            ifSuccess = {},
+    fun save(@RequestBody room: RoomOutbound): RoomOutbound =
+        service.save(room).fold(
+            ifSuccess = { it },
             ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
             ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) },
             ifConflict = { throw ResponseStatusException(HttpStatus.CONFLICT) }
         )
-    }
+
+    @PutMapping("/{id}")
+    fun update(@PathVariable id: Int, @RequestBody updated: RoomOutbound): RoomOutbound =
+        service.update(id, updated).fold(
+            ifSuccess = { it },
+            ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) },
+            ifConflict = { throw ResponseStatusException(HttpStatus.CONFLICT) }
+        )
 
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Int) {
