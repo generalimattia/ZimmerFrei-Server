@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 
 interface CustomerService {
     fun get(id: Int): Result<CustomerOutbound>
-    fun save(room: CustomerOutbound)
+    fun save(room: CustomerOutbound): Result<CustomerOutbound>
     fun update(id: Int, updated: CustomerOutbound): Result<CustomerOutbound>
     fun delete(id: Int): Result<CustomerOutbound>
     fun getAll(): Result<List<CustomerOutbound>>
@@ -24,8 +24,9 @@ class CustomerServiceImpl constructor(
         repository.findById(id).map<Result<CustomerOutbound>> { Result.Success(it.toOutbound()) }
             .orElse(Result.NotFound)
 
-    override fun save(room: CustomerOutbound) {
-        repository.save(room.toEntity())
+    override fun save(room: CustomerOutbound): Result<CustomerOutbound> {
+        val result: CustomerEntity = repository.save(room.toEntity())
+        return Result.Success(result.toOutbound())
     }
 
     override fun update(id: Int, updated: CustomerOutbound): Result<CustomerOutbound> =

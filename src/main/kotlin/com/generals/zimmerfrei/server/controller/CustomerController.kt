@@ -17,19 +17,32 @@ class CustomerController {
     private lateinit var service: CustomerService
 
     @PostMapping
-    fun save(@RequestBody room: CustomerOutbound) {
-        service.save(room)
-    }
-
-    @PutMapping("/{id}")
-    fun update(@PathVariable id: Int, @RequestBody updated: CustomerOutbound) {
-        service.update(id, updated).fold(
-            ifSuccess = {},
+    fun save(@RequestBody customer: CustomerOutbound): CustomerOutbound =
+        service.save(customer).fold(
+            ifSuccess = { outbound: CustomerOutbound ->
+                val link: Link = linkTo<CustomerController>().slash(outbound.id).withSelfRel()
+                outbound.apply {
+                    add(link)
+                }
+            },
             ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
             ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) },
             ifConflict = { throw ResponseStatusException(HttpStatus.CONFLICT) }
         )
-    }
+
+    @PutMapping("/{id}")
+    fun update(@PathVariable id: Int, @RequestBody updated: CustomerOutbound): CustomerOutbound =
+        service.update(id, updated).fold(
+            ifSuccess = { outbound: CustomerOutbound ->
+                val link: Link = linkTo<CustomerController>().slash(outbound.id).withSelfRel()
+                outbound.apply {
+                    add(link)
+                }
+            },
+            ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) },
+            ifConflict = { throw ResponseStatusException(HttpStatus.CONFLICT) }
+        )
 
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Int) {

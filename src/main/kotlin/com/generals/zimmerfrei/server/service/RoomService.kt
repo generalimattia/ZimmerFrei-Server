@@ -41,7 +41,7 @@ class RoomServiceImpl constructor(
         }.orElse(Result.NotFound)
 
     override fun delete(id: Int): Result<RoomOutbound> =
-        roomRepository.findById(id).map<Result<RoomOutbound>> { room: RoomEntity ->
+        roomRepository.findById(id).map { room: RoomEntity ->
             val reservationsByRoom: List<ReservationEntity> = reservationRepository.findByRoom(room)
             if (reservationsByRoom.isEmpty()) {
                 roomRepository.delete(room)
