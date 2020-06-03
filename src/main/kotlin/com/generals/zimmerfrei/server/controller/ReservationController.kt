@@ -24,29 +24,41 @@ class ReservationController {
     private lateinit var service: ReservationService
 
     @PostMapping
-    fun save(@RequestBody reservation: ReservationOutbound) {
-        service.save(reservation)
-    }
+    fun save(@RequestBody reservation: ReservationOutbound): ReservationOutbound =
+        service.save(reservation).fold(
+            ifSuccess = { outbound: ReservationOutbound ->
+                val link: Link = linkTo<ReservationController>().slash(outbound.id).withSelfRel()
+                outbound.apply {
+                    add(link)
+                }
+            },
+            ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
+            ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) },
+            ifConflict = { throw ResponseStatusException(HttpStatus.CONFLICT) }
+        )
 
     @PutMapping("/{id}")
-    fun update(@PathVariable id: Int, @RequestBody updated: ReservationOutbound) {
+    fun update(@PathVariable id: Int, @RequestBody updated: ReservationOutbound): ReservationOutbound =
         service.update(id, updated).fold(
-            ifSuccess = {},
+            ifSuccess = { outbound: ReservationOutbound ->
+                val link: Link = linkTo<ReservationController>().slash(outbound.id).withSelfRel()
+                outbound.apply {
+                    add(link)
+                }
+            },
             ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
             ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) },
             ifConflict = { throw ResponseStatusException(HttpStatus.CONFLICT) }
         )
-    }
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: Int) {
+    fun delete(@PathVariable id: Int) =
         service.delete(id).fold(
-            ifSuccess = {},
+            ifSuccess = { },
             ifNotFound = { throw ResponseStatusException(HttpStatus.NOT_FOUND) },
             ifForbidden = { throw ResponseStatusException(HttpStatus.FORBIDDEN) },
             ifConflict = { throw ResponseStatusException(HttpStatus.CONFLICT) }
         )
-    }
 
     @GetMapping("/{id}")
     fun get(@PathVariable id: Int): ReservationOutbound =

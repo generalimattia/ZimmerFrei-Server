@@ -14,7 +14,7 @@ import java.util.*
 
 interface ReservationService {
     fun get(id: Int): Result<ReservationOutbound>
-    fun save(reservation: ReservationOutbound): Result<Unit>
+    fun save(reservation: ReservationOutbound): Result<ReservationOutbound>
     fun update(id: Int, updated: ReservationOutbound): Result<ReservationOutbound>
     fun delete(id: Int): Result<ReservationOutbound>
     fun getAll(): Result<List<ReservationOutbound>>
@@ -32,7 +32,7 @@ class ReservationServiceImpl constructor(
             Result.NotFound
         )
 
-    override fun save(reservation: ReservationOutbound): Result<Unit> {
+    override fun save(reservation: ReservationOutbound): Result<ReservationOutbound> {
         val persistentRoom: RoomEntity? =
             reservation.room?.let { room: RoomOutbound ->
                 val optional: Optional<RoomEntity> = roomRepository.findById(room.id)
@@ -53,12 +53,12 @@ class ReservationServiceImpl constructor(
                 listOf(it)
             } ?: emptyList()
 
-            reservationRepository.save(
+            val result: ReservationEntity = reservationRepository.save(
                 toPersist.copy(
                     rooms = toPersist.rooms + rooms
                 )
             )
-            Result.Success(Unit)
+            Result.Success(result.toOutbound())
         } else {
             Result.Conflict
         }
